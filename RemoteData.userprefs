@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RemoteData\Activity1.cs">
+    <Files>
+      <File FileName="RemoteData\Activity1.cs" Line="49" Column="45" />
+      <File FileName="RemoteData\Tweet.cs" Line="27" Column="28" />
+      <File FileName="RemoteData\book.txt" Line="95" Column="5" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.RemoteData AndroidDeviceId-Debug="emulator-5554" />
+</Properties>

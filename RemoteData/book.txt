@@ -1,0 +1,198 @@
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.IO;
+using System.ServiceModel;
+using System.Linq;
+using System.Json;
+using System.Xml;
+using System.Xml.Linq;
+using Android.App;
+using Android.Content;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+using Android.OS;
+using Android.Net;
+
+namespace RemoteData
+{
+	[Activity (Label = "jsonb")]			
+	public class jsonb : Activity
+	{
+		Button button, button2;
+		TextView tv;
+		
+		protected override void OnCreate (Bundle bundle)
+		{
+			base.OnCreate (bundle);
+			SetContentView (Resource.Layout.Main);
+			
+			tv = FindViewById<TextView> (Resource.Id.tv1);
+			button = FindViewById<Button> (Resource.Id.myButton);
+			button2 = FindViewById<Button> (Resource.Id.myButton2);
+			button.Click += btnRESTJSONLINQ_Click;
+			button2.Click += btnRESTJSON_Click;
+		}
+		
+		void btnRESTJSONLINQ_Click(object sender, EventArgs e)
+		{
+			string Url = "http://www.twtmstr.com/webservices/remoteapi.svc/GetUserTimeLine";
+			System.Json.JsonObject ld = new System.Json.JsonObject() 
+			{ { "UserName", "MonoDroidBookEx" },
+				{ "PassWord", "MonoDroidIsGreat" },
+				{ "AppKey", "blah" } };
+			System.Json.JsonObject bd = new System.Json.JsonObject()
+			{ { "ld", ld },
+				{ "TwitterId", "monodroidbookex"},
+				{ "PageIndex", 1 }};
+			string Body = bd.ToString();
+			byte[] byteData = System.Text.UTF8Encoding.UTF8.GetBytes(Body);
+			try
+			{
+				// Create the web request
+				HttpWebRequest request = WebRequest.Create(Url) as HttpWebRequest;
+				request.ContentLength = Body.Length;
+				
+				// Set type to POST
+				request.Method = "POST";
+				request.ContentType = "application/json";
+				
+				
+				// Write the parameters
+				StreamWriter stOut = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
+				stOut.Write(Body);
+				stOut.Close();
+				
+				request.BeginGetResponse(new AsyncCallback(ProcessRestJSONLINQHttpResponse), request);
+			}
+			catch (WebException we)
+			{
+				tv.Text = we.Message;
+				Console.WriteLine ("WebException (click): " + we.Message);
+			}
+			catch (System.Exception sysExc)
+			{
+				tv.Text = sysExc.Message;
+				Console.WriteLine ("Exception (click): " + sysExc.Message);
+			}
+		}
+		
+		void ProcessRestJSONLINQHttpResponse(IAsyncResult iar)
+		{
+			try
+			{
+				Int64 t1 = DateTime.Now.Ticks;
+				Int64 t2;
+				Int64 TotalTicks;
+				HttpWebRequest request = (HttpWebRequest)iar.AsyncState;
+				HttpWebResponse response;
+				response = (HttpWebResponse)request.EndGetResponse(iar);
+				System.IO.StreamReader strm = new System.IO.StreamReader(
+					response.GetResponseStream());
+				System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load(strm);
+				//List<Tweet> twt = new List<Tweet>();
+				var twt = (from jsonTweet in jsonArray
+				           select new Tweet
+				           {
+					ProfileImage = jsonTweet["ProfileImage"].ToString(),
+					Status = jsonTweet["Status"].ToString(),
+					StatusDate = jsonTweet["StatusDate"],
+					StatusId = jsonTweet["StatusId"].ToString(),
+					UserName = jsonTweet["UserName"].ToString()
+				}).ToList<Tweet>();
+				t2 = DateTime.Now.Ticks;
+				TotalTicks = t2 - t1;
+				this.RunOnUiThread(() => tv.Text = "Ticks with LINQ: " + TotalTicks.ToString());
+				Console.WriteLine ("finished");
+			}
+			catch (System.Exception sysExc)
+			{
+				Console.WriteLine ("Exception: (process)" + sysExc.Message);
+				this.RunOnUiThread(() => tv.Text = "Exception: " + sysExc.Message);
+			}
+		}
+		
+		void btnRESTJSON_Click(object sender, EventArgs e)
+		{
+			string Url = "http://www.twtmstr.com/webservices/remoteapi.svc/GetUserTimeLine";
+			System.Json.JsonObject ld = new System.Json.JsonObject() 
+			{ { "UserName", "MonoDroidBookEx" },
+				{ "PassWord", "MonoDroidIsGreat" },
+				{ "AppKey", "blah" } };
+			System.Json.JsonObject bd = new System.Json.JsonObject()
+			{ { "ld", ld },
+				{ "TwitterId", "monodroidbookex"},
+				{ "PageIndex", 1 }};
+			string Body = bd.ToString (); 
+			byte[] byteData = System.Text.UTF8Encoding.UTF8.GetBytes(Body);
+			try
+			{
+				// Create the web request
+				HttpWebRequest request = WebRequest.Create(Url) as HttpWebRequest;
+				request.ContentLength = Body.Length;
+				
+				// Set type to POST
+				request.Method = "POST";
+				request.ContentType = "application/json";
+				
+				// Write the parameters
+				StreamWriter stOut = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
+				stOut.Write(Body);
+				stOut.Close();
+				
+				request.BeginGetResponse(new AsyncCallback(ProcessRestJSONHttpResponse), request);
+			}
+			catch (WebException we)
+			{
+				tv.Text = we.Message;
+				Console.WriteLine ("WebException: (restClick)" + we.Message);
+			}
+			catch (System.Exception sysExc)
+			{
+				tv.Text = sysExc.Message;
+				Console.WriteLine ("Exception: (restclick) " + sysExc.Message);
+			}
+		}
+		
+		void ProcessRestJSONHttpResponse(IAsyncResult iar)
+		{
+			try
+			{
+				Int64 t1 = DateTime.Now.Ticks;
+				Int64 t2;
+				Int64 TotalTicks;
+				HttpWebRequest request = (HttpWebRequest)iar.AsyncState;
+				HttpWebResponse response;
+				response = (HttpWebResponse)request.EndGetResponse(iar);
+				System.IO.StreamReader strm = new System.IO.StreamReader(
+					response.GetResponseStream());
+				System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load(strm);
+				List<Tweet> twt = new List<Tweet>();
+				foreach (System.Json.JsonObject jsonTweet in jsonArray)
+				{
+					Tweet t = new Tweet();
+					t.ProfileImage = jsonTweet["ProfileImage"].ToString();
+					t.Status = jsonTweet["Status"].ToString();
+					t.StatusDate = jsonTweet["StatusDate"];
+					t.StatusId = jsonTweet["StatusId"].ToString();
+					t.UserName = jsonTweet["UserName"].ToString();
+					twt.Add(t);
+				}
+				t2 = DateTime.Now.Ticks;
+				TotalTicks = t2 - t1;
+				this.RunOnUiThread(() => tv.Text = "Records returned: " + twt.Count.ToString());
+				this.RunOnUiThread(() => tv.Text += " Ticks with Array: " + TotalTicks.ToString());
+				Console.WriteLine ("finished");
+			}
+			catch (System.Exception sysExc)
+			{
+				Console.WriteLine ("Exception: (rest process)" + sysExc.Message);
+				this.RunOnUiThread(() => tv.Text = "Exception: " + sysExc.Message);
+			}
+		}
+	}
+}
+
+
+
