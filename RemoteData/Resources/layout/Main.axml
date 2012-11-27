@@ -7,8 +7,7 @@
         android:inputType="textPersonName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etUser"
-        android:text="rickygervai" />
+        android:id="@+id/etUser" />
     <Button
         android:id="@+id/myButton"
         android:layout_width="fill_parent"
