@@ -61,6 +61,7 @@
     <None Include="Assets\AboutAssets.txt" />
     <None Include="book.txt" />
     <None Include="monowebsite.txt" />
+    <None Include="mytry1.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

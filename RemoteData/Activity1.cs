@@ -23,86 +23,76 @@ namespace RemoteData
 		Button button;
 		TextView tv;
 		EditText user;
-
+		string userName;
+		
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
-
+			
 			tv = FindViewById<TextView> (Resource.Id.tv1);
 			user = FindViewById<EditText> (Resource.Id.etUser);
 			button = FindViewById<Button> (Resource.Id.myButton);
-			button.Click += btn_Click;
-
+			button.Click += button1_Click;
+			user.AfterTextChanged += usernameForRequest;
+			
 		}
-		//TODO don't fully understand this
-		/* I understand you need to formulate the request and send it to a "location"(url) where the
-		 * request is handeled and a response is given.
-		 */
-		void btn_Click (object sender, EventArgs e)
+		void usernameForRequest (object sender, EventArgs e)
 		{
-			/* my biggest issue is to formulate the request how do I know which url to use, according to the twitter developers website the url-request should look like:
-			 * https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2
-			 */
-			string Url = "http://www.twtmstr.com/webservices/remoteapi.svc/GetUserTimeLine";
-			/* So 2 JSON object (which have keys and values)
-			 * I tried filling it in with my twitter information, but then nothing happened?
-			 * I wanted to try to get the timeline from any user - the username provided by the app-user?
-			 */
-			System.Json.JsonObject ld = new System.Json.JsonObject() 
-			{ { "UserName", "MonoDroidBookEx" },
-				{ "PassWord", "MonoDroidIsGreat" },
-				{ "AppKey", "blah" } };
-			System.Json.JsonObject bd = new System.Json.JsonObject()
-			{ { "ld", ld },
-				{ "TwitterId", "monodroidbookex"},
-				{ "PageIndex", 1 }};
-			string Body = bd.ToString (); 
-			byte[] byteData = System.Text.UTF8Encoding.UTF8.GetBytes(Body); //this was present in several online examples but is never used & works without?
+			userName = user.Text;
+		}
+		private void button1_Click (object sender, EventArgs e)
+		{
+			if (userName != null) {
+				string Url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + userName + "&count=5";
+				Console.WriteLine (Url);
+				WebClient twitter = new WebClient ();
+				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
+				twitter.DownloadStringAsync (new System.Uri (Url));
+			}
+		}
+		
+		void twitter_DownloadStringCompleted (object sender, DownloadStringCompletedEventArgs e)
+		{
+			RunOnUiThread (() => tv.Text = (e.Result));
+//			if (e.Error != null)
+//				return;
 			try
 			{
-				//defining the type of request
-				HttpWebRequest request = WebRequest.Create(Url) as HttpWebRequest;
-				request.ContentLength = Body.Length;
-				request.Method = "POST";
-				request.ContentType = "text/json";
-				//encoding/writing the request
-				StreamWriter stOut = new StreamWriter(request.GetRequestStream(), System.Text.Encoding.ASCII);
-				stOut.Write(Body);
-				stOut.Close(); 
-				
-				request.BeginGetResponse(new AsyncCallback(ProcessResponse), request);
+				//JsonArray jsonArray = new JsonArray (e.Result);
+
+				System.IO.StreamReader strm = new System.IO.StreamReader (e.Result);
+				System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
+				var twt = (from jsonTweet in jsonArray
+				           select new Tweet
+				           {
+					ProfileImage = jsonTweet["ProfileImage"].ToString(),
+					Status = jsonTweet["Status"].ToString(),
+					StatusDate = jsonTweet["StatusDate"],
+					StatusId = jsonTweet["StatusId"].ToString(),
+					UserName = jsonTweet["UserName"].ToString()
+				}).ToList<Tweet> ();
+				foreach (Tweet t in twt) {
+					RunOnUiThread (() => tv.Text += t.TweetString ()+"\n\n");
+				}
 			}
 			catch (WebException we)
 			{
-				Console.Error.WriteLine("WebException: " + we.Message);
+				Console.Error.WriteLine("WebException : " + we.Message);
 			}
 			catch (System.Exception sysExc)
 			{
-				Console.Error.WriteLine("System.Exception: " + sysExc.Message);
-			}		
-		}
-		void ProcessResponse (IAsyncResult iar)
-		{
-			//This I pretty much understand
-			HttpWebRequest request = (HttpWebRequest)iar.AsyncState;
-			HttpWebResponse response;
-			response = (HttpWebResponse)request.EndGetResponse (iar);
-			Console.Error.WriteLine ("getting response.");
-			System.IO.StreamReader strm = new System.IO.StreamReader (response.GetResponseStream ());
-			System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
-			var twt = (from jsonTweet in jsonArray
-			           select new Tweet
-			           {
-				ProfileImage = jsonTweet["ProfileImage"].ToString(),
-				Status = jsonTweet["Status"].ToString(),
-				StatusDate = jsonTweet["StatusDate"],
-				StatusId = jsonTweet["StatusId"].ToString(),
-				UserName = jsonTweet["UserName"].ToString()
-			}).ToList<Tweet> ();
-			foreach (Tweet t in twt) {
-				RunOnUiThread (() => tv.Text += t.TweetString ()+"\n\n");// not sure why it has to be run on a thread
-			}
+				Console.Error.WriteLine("System.Exception : " + sysExc.Message);
+			}	
+
+//			XElement xmlTweets = XElement.Parse (e.Result);
+//			Console.WriteLine (e.Result);
+//		
+//			var message = (from tweet in xmlTweets.Descendants ("status")
+//			               select tweet.Element ("text").Value).FirstOrDefault ();
+//			
+//
+//			RunOnUiThread (() => tv.Text = message);
 		}
 	}
 }
