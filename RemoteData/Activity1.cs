@@ -37,10 +37,12 @@ namespace RemoteData
 			user.AfterTextChanged += usernameForRequest;
 			
 		}
+
 		void usernameForRequest (object sender, EventArgs e)
 		{
 			userName = user.Text;
 		}
+
 		private void button1_Click (object sender, EventArgs e)
 		{
 			if (userName != null) {
@@ -54,45 +56,40 @@ namespace RemoteData
 		
 		void twitter_DownloadStringCompleted (object sender, DownloadStringCompletedEventArgs e)
 		{
-			RunOnUiThread (() => tv.Text = (e.Result));
-			//			if (e.Error != null)
-			//				return;
-//			try
-//			{
-//				//JsonArray jsonArray = new JsonArray (e.Result);
-//				
-//				System.IO.StreamReader strm = new System.IO.StreamReader (e.Result);
-//				System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
-//				var twt = (from jsonTweet in jsonArray
-//				           select new Tweet
-//				           {
-//					ProfileImage = jsonTweet["ProfileImage"].ToString(),
-//					Status = jsonTweet["Status"].ToString(),
-//					StatusDate = jsonTweet["StatusDate"],
-//					StatusId = jsonTweet["StatusId"].ToString(),
-//					UserName = jsonTweet["UserName"].ToString()
-//				}).ToList<Tweet> ();
-//				foreach (Tweet t in twt) {
-//					RunOnUiThread (() => tv.Text += t.TweetString ()+"\n\n");
-//				}
-//			}
-//			catch (WebException we)
-//			{
-//				Console.Error.WriteLine("WebException : " + we.Message);
-//			}
-//			catch (System.Exception sysExc)
-//			{
-//				Console.Error.WriteLine("System.Exception : " + sysExc.Message);
-//			}	
+			//RunOnUiThread (() => tv.Text = (e.Result));
+			if (e.Error != null)
+				return;
+			try {
+				//JsonArray jsonArray = new JsonArray (e.Result);
+				
+				System.IO.StreamReader strm = new System.IO.StreamReader (e.Result);
+				System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
+				var twt = (from jsonTweet in jsonArray
+				           select new Tweet
+				           {
+					ProfileImage = jsonTweet["ProfileImage"].ToString(),
+					Status = jsonTweet["Status"].ToString(),
+					StatusDate = jsonTweet["StatusDate"],
+					StatusId = jsonTweet["StatusId"].ToString(),
+					UserName = jsonTweet["UserName"].ToString()
+				}).ToList<Tweet> ();
+				foreach (Tweet t in twt) {
+					RunOnUiThread (() => tv.Text += t.TweetString () + "\n\n");
+				}
+			} catch (WebException we) {
+				Console.Error.WriteLine ("WebException : " + we.Message);
+			} catch (System.Exception sysExc) {
+				Console.Error.WriteLine ("System.Exception : " + sysExc.Message);
+			}	
 			
-			//			XElement xmlTweets = XElement.Parse (e.Result);
-			//			Console.WriteLine (e.Result);
-			//		
-			//			var message = (from tweet in xmlTweets.Descendants ("status")
-			//			               select tweet.Element ("text").Value).FirstOrDefault ();
-			//			
-			//
-			//			RunOnUiThread (() => tv.Text = message);
+			XElement xmlTweets = XElement.Parse (e.Result);
+			Console.WriteLine (e.Result);
+					
+			var message = (from tweet in xmlTweets.Descendants ("status")
+						               select tweet.Element ("text").Value).FirstOrDefault ();
+						
+			
+			RunOnUiThread (() => tv.Text = message);
 		}
 	}
 }
