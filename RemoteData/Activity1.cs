@@ -44,6 +44,19 @@ namespace RemoteData
 			/* my biggest issue is to formulate the request how do I know which url to use, according to the twitter developers website the url-request should look like:
 			 * https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=twitterapi&count=2
 			 */
+
+			/*
+			 *  Look at the documentation for the statuses/user_timeline
+			 * You need to formulate a GET request with the following url:
+			 * https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=twitterapi&count=2
+			 * 
+			 * where you can dynamically replace the screen_name (twitterapi) with the one you capture from the screen. 
+			 * This should give you a json reply with a the tweets.
+			 * 
+			 * FYI: for serializing/deserializing we use http://json.codeplex.com/
+			 * -> meaning we handle the objects as C# classes in our code, and serialize them to Json when sending them to the server. The same goes for getting Json from the server and deserialize them into objects.
+			 * 
+			 */ 
 			string Url = "http://www.twtmstr.com/webservices/remoteapi.svc/GetUserTimeLine";
 			/* So 2 JSON object (which have keys and values)
 			 * I tried filling it in with my twitter information, but then nothing happened?
@@ -59,6 +72,8 @@ namespace RemoteData
 				{ "PageIndex", 1 }};
 			string Body = bd.ToString (); 
 			byte[] byteData = System.Text.UTF8Encoding.UTF8.GetBytes(Body); //this was present in several online examples but is never used & works without?
+
+			// making sure the content of the body is encoded in utf-8, presumably for handling user input.
 			try
 			{
 				//defining the type of request
@@ -102,6 +117,7 @@ namespace RemoteData
 			}).ToList<Tweet> ();
 			foreach (Tweet t in twt) {
 				RunOnUiThread (() => tv.Text += t.TweetString ()+"\n\n");// not sure why it has to be run on a thread
+				// -> you are making an asynchronous call to the server, meaning you your application makes a call, but does not block until it gets a reply. The reply/callback runs in a different thread.
 			}
 		}
 	}
