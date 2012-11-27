@@ -61,9 +61,18 @@ namespace RemoteData
 				return;
 			try {
 				//JsonArray jsonArray = new JsonArray (e.Result);
-				
-				System.IO.StreamReader strm = new System.IO.StreamReader (e.Result);
-				System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
+
+				Console.WriteLine (e.Result);
+
+				var result = JsonValue.Parse (e.Result);
+
+				var first_result = result [0];
+				var text = first_result ["text"];
+
+				Console.WriteLine (text.ToString ());
+				//System.IO.StreamReader strm = new System.IO.StreamReader (e.Result);
+				//System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
+				/*
 				var twt = (from jsonTweet in jsonArray
 				           select new Tweet
 				           {
@@ -76,6 +85,7 @@ namespace RemoteData
 				foreach (Tweet t in twt) {
 					RunOnUiThread (() => tv.Text += t.TweetString () + "\n\n");
 				}
+				*/
 			} catch (WebException we) {
 				Console.Error.WriteLine ("WebException : " + we.Message);
 			} catch (System.Exception sysExc) {
