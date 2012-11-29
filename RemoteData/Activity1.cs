@@ -14,15 +14,23 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Net;
+using Android.Graphics;
+using System.Threading;
 
 namespace RemoteData
 {
-	[Activity (Label = "RemoteData", MainLauncher = true)]
+	[Activity (Theme = "@android:style/Theme.Light.NoTitleBar.Fullscreen", Label = "RemoteData", MainLauncher = true)]
 	public class Activity1 : Activity
 	{
+		ImageView image;
+		EditText user;
 		Button button;
 		TextView tv;
-		EditText user;
+		ListView listView;
+
+		ProgressDialog progressDialog;
+
+		readonly string SOURCE = "SOURCE";
 		string userName;
 		
 		protected override void OnCreate (Bundle bundle)
@@ -30,12 +38,20 @@ namespace RemoteData
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
 			
-			tv = FindViewById<TextView> (Resource.Id.tv1);
+			image = FindViewById<ImageView> (Resource.Id.iv);
 			user = FindViewById<EditText> (Resource.Id.etUser);
 			button = FindViewById<Button> (Resource.Id.myButton);
-			button.Click += button1_Click;
-			user.AfterTextChanged += usernameForRequest;
+			tv = FindViewById<TextView> (Resource.Id.tv1);
+			listView = FindViewById<ListView>(Resource.Id.lvResult);
 			
+			user.AfterTextChanged += usernameForRequest;
+			button.Click += twitter_DownloadString;
+			listView.ItemClick += listView_ItemClick;
+		
+		}
+		void listView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+		{
+			Toast.MakeText(this, " Clicked!", ToastLength.Short).Show();
 		}
 
 		void usernameForRequest (object sender, EventArgs e)
@@ -43,64 +59,46 @@ namespace RemoteData
 			userName = user.Text;
 		}
 
-		private void button1_Click (object sender, EventArgs e)
+		private void twitter_DownloadString (object sender, EventArgs e)
 		{
 			if (userName != null) {
+				//TODO count issue
+				/* I don't always get the correct count (see ViewTweetsActivity)
+				 */
 				string Url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + userName + "&count=5";
-				Console.WriteLine (Url);
+				//TODO progressdialog issue
+				/*wanted to show a progressdialog while downloading tweets, but i'm getting error messages?
+				 */
+				//progressDialog = ProgressDialog.Show(this, "Downloading Tweets", "looking for "+userName, true);
+
 				WebClient twitter = new WebClient ();
 				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
 				twitter.DownloadStringAsync (new System.Uri (Url));
+			} else {
+				Toast.MakeText(this, "Enter twitter Name", ToastLength.Short).Show();
 			}
 		}
 		
 		void twitter_DownloadStringCompleted (object sender, DownloadStringCompletedEventArgs e)
 		{
-			//RunOnUiThread (() => tv.Text = (e.Result));
 			if (e.Error != null)
 				return;
 			try {
-				//JsonArray jsonArray = new JsonArray (e.Result);
-
-				Console.WriteLine (e.Result);
-
-				var result = JsonValue.Parse (e.Result);
-
-				var first_result = result [0];
-				var text = first_result ["text"];
-
-				Console.WriteLine (text.ToString ());
-				//System.IO.StreamReader strm = new System.IO.StreamReader (e.Result);
-				//System.Json.JsonArray jsonArray = (System.Json.JsonArray)System.Json.JsonArray.Load (strm);
-				/*
-				var twt = (from jsonTweet in jsonArray
-				           select new Tweet
-				           {
-					ProfileImage = jsonTweet["ProfileImage"].ToString(),
-					Status = jsonTweet["Status"].ToString(),
-					StatusDate = jsonTweet["StatusDate"],
-					StatusId = jsonTweet["StatusId"].ToString(),
-					UserName = jsonTweet["UserName"].ToString()
-				}).ToList<Tweet> ();
-				foreach (Tweet t in twt) {
-					RunOnUiThread (() => tv.Text += t.TweetString () + "\n\n");
-				}
-				*/
+				//progressDialog.Hide();
+				string result = e.Result;
+				Console.WriteLine (result);
+				Intent intent = new Intent(this, typeof (ViewTweetsActivity));
+				intent.PutExtra(SOURCE, result);
+				StartActivity (intent);
+				Finish ();
+			
 			} catch (WebException we) {
 				Console.Error.WriteLine ("WebException : " + we.Message);
 			} catch (System.Exception sysExc) {
-				Console.Error.WriteLine ("System.Exception : " + sysExc.Message);
+				Console.Error.WriteLine ("System.Exception : " + sysExc.Message + "\n" +sysExc.StackTrace);
 			}	
-			
-			XElement xmlTweets = XElement.Parse (e.Result);
-			Console.WriteLine (e.Result);
-					
-			var message = (from tweet in xmlTweets.Descendants ("status")
-						               select tweet.Element ("text").Value).FirstOrDefault ();
-						
-			
-			RunOnUiThread (() => tv.Text = message);
 		}
+
 	}
 }
 

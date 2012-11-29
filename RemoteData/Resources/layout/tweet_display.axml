@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/frame1"
+    android:padding="5dip">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_marginBottom="20dip">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/frame2">
+            <ImageView
+                android:src="@drawable/twitter_logo"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:id="@+id/ivProfile"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayout3"
+            android:layout_marginLeft="25dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_vertical">
+            <TextView
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvName"
+                android:textColor="#ff000000" />
+            <TextView
+                android:text="Screen Name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvScreenName"
+                android:textColor="#999999" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2"
+        android:padding="4dip">
+        <TextView
+            android:text="Tweet Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvTweet"
+            android:textColor="#ff000000"
+            android:layout_marginBottom="10dip"
+            android:layout_marginLeft="20dip" />
+        <TextView
+            android:text="post date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDate"
+            android:textColor="#999999"
+            android:gravity="right" />
+    </LinearLayout>
+</LinearLayout>

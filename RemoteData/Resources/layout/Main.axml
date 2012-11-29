@@ -3,18 +3,34 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <ImageView
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:id="@+id/iv"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/twitter_logo"
+        android:layout_marginTop="10dip"
+        android:layout_marginBottom="10dip" />
     <EditText
         android:inputType="textPersonName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etUser" />
+        android:id="@+id/etUser"
+        android:hint="Enter twitter Name" />
     <Button
         android:id="@+id/myButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Click" />
+        android:text="find tweets" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv1" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lvResult" />
 </LinearLayout>
