@@ -49,6 +49,8 @@ namespace RemoteData
 					if (tweets.Count > 0) {
 						listAdapter = new MyListAdapter (this, tweets);
 						//TODO Header issue
+						// not really had time to look at this, but currently your content is only a list view...
+						// ping me if it is not solved, another meeting awaits...
 						/* I wanted to make a static header, so I only have to load the profileimage and name once
 						 * But i can't get it to show anything and it scrolls with rest of the list.
 						 */
