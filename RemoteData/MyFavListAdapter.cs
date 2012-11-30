@@ -51,23 +51,19 @@ namespace RemoteData
 			var tweet = Items [position];  
 			var tDate = new Date (tweet.StatusDate);
 
-			// TODO group RunOnUiThread
-			myActivity.RunOnUiThread (() => ivProfile.SetImageBitmap (tweet.ProfileImage));
-			myActivity.RunOnUiThread (() => tvScreenName.Text = "@"+tweet.ScreenName);
-			myActivity.RunOnUiThread (() => tvName.Text = tweet.UserName);
-			myActivity.RunOnUiThread (() => tvTweet.Text = tweet.StatusText);
-			myActivity.RunOnUiThread (() => tvDate.Text = tDate.ToLocaleString ());
-			
+			myActivity.RunOnUiThread (() => 
+			{
+				ivProfile.SetImageBitmap (tweet.ProfileImage);
+				tvScreenName.Text = "@"+tweet.ScreenName;
+				tvName.Text = tweet.UserName;
+				tvTweet.Text = tweet.StatusText;
+				tvDate.Text = tDate.ToLocaleString ();
+			});
 			return view;
 		}
 		public Tweet GetTweet (int position)
 		{
 			return Items [position];
-		}
-		public Bitmap GetHeaderInfo ()
-		{
-			Tweet tw = Items [0];
-			return tw.ProfileImage;
 		}
 	}
 }

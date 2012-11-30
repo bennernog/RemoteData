@@ -46,7 +46,7 @@ namespace RemoteData
             this.UserName = displayString (name);
            	this.ScreenName = displayString (screen_name);
 			this.ProfileImageUrl = displayString (imageUrl);
-			downloadImage (displayString (imageUrl));
+			DownloadImage (web_DownloadDataCompleted);
 		}
 		private int GetID (JsonValue source)
 		{
@@ -64,12 +64,12 @@ namespace RemoteData
 			string output = s.Substring(1, l);
 			return output;
 		}
-		private void downloadImage (string imageUrl)
+		public void DownloadImage (DownloadDataCompletedEventHandler downloadDataCompleted)
 		{
-			
+
 			WebClient web = new WebClient();
-			web.DownloadDataAsync(new System.Uri (imageUrl));
-			web.DownloadDataCompleted += new DownloadDataCompletedEventHandler(web_DownloadDataCompleted);
+			web.DownloadDataAsync(new System.Uri (ProfileImageUrl));
+			web.DownloadDataCompleted += new DownloadDataCompletedEventHandler(downloadDataCompleted);
 
 		}
 		void web_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)

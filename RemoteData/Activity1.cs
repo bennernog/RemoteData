@@ -52,10 +52,7 @@ namespace RemoteData
 		{
 			userName = user.Text;
 			if (userName != null) {
-				//TODO count issue
-				/* I don't always get the correct count (see ViewTweetsActivity)
-				 */
-				string Url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + userName + "&count=5";
+				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count=5",userName);
 				progressDialog = ProgressDialog.Show(this, "Downloading Tweets", String.Format("looking for {0}",userName), true);
 				WebClient twitter = new WebClient ();
 				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
@@ -71,7 +68,6 @@ namespace RemoteData
 				return;
 			try {
 				string result = e.Result;
-				Console.WriteLine (result);
 				Intent intent = new Intent(this, typeof (ViewTweetsActivity));
 				intent.PutExtra(SOURCE, result);
 				StartActivity (intent);

@@ -34,10 +34,9 @@ namespace RemoteData
 			try {
 				var dbT = new TweetCommands (this);
 				allFavTweets = dbT.GetAllTweets ();
-
 			} catch (System.Exception sysExc) {
-				Console.Error.WriteLine ("System.Exception : " + sysExc.Message + "\n" + sysExc.StackTrace);
-			}
+				Console.Error.WriteLine (String.Format("System.Exception : {0}\n{1}" , sysExc.Message , sysExc.StackTrace));
+			}	
 
 			if (allFavTweets.Count > 0) {
 				try {
@@ -58,18 +57,13 @@ namespace RemoteData
 		}
 		public void ListClick (object sender, AdapterView.ItemClickEventArgs args)
 		{
-			//TODO delete tweet from db (no questions for now)
-			int i = (int)listAdapter.GetItemId (args.Position);
-			Toast.MakeText(this, "clicked "+i.ToString (), ToastLength.Short).Show();		
-
-			AlertDialog.Builder alert = new AlertDialog.Builder (this);
+			var alert = new AlertDialog.Builder (this);
 			alert.SetTitle("Alert!");
 			alert.SetMessage("This is the content of the alert");
 			alert.SetPositiveButton("Delete tweet", delegate {
 				var dbT = new TweetCommands (this);
 				Tweet tw = allFavTweets [args.Position];
 				dbT.DeleteTweet (tw.ID);
-				Toast.MakeText(this, "Clicked ok", ToastLength.Short).Show();
 			});
 			alert.SetNeutralButton("New Search", delegate {
 				StartActivity (typeof (Activity1));
