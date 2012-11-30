@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/etUser"
         android:hint="Enter twitter Name"
-        android:text="janvdp" />
+        android:text="flowpilots" />
     <Button
         android:id="@+id/myButton"
         android:layout_width="fill_parent"

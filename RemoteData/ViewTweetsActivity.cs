@@ -24,6 +24,7 @@ namespace RemoteData
 		ListView listView;
 		MyListAdapter listAdapter;
 		Bitmap pic;
+		ImageView ivProfile;
 
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -60,7 +61,7 @@ namespace RemoteData
 						Tweet twt = listAdapter.GetTweet (1);
 						pic = twt.ProfileImage;
 						if (pic == null) Console.WriteLine ("No Pic");
-						var ivProfile = FindViewById<ImageView> (Resource.Id.ivProfileH);
+						ivProfile = FindViewById<ImageView> (Resource.Id.ivProfileH);
 						var tvName = FindViewById<TextView> (Resource.Id.tvNameH);
 						var tvScreenName = FindViewById<TextView> (Resource.Id.tvScreenNameH);
 
@@ -68,7 +69,7 @@ namespace RemoteData
 						RunOnUiThread (() => tvName.Text = twt.UserName);
 						RunOnUiThread (() => tvScreenName.Text = "@"+twt.ScreenName);
 						RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
-						//downloadImage (twt.ProfileImageUrl);
+						downloadImage (twt.ProfileImageUrl);
 						listView.Adapter = listAdapter;
 						
 						listView.ItemClick += ListClick;
