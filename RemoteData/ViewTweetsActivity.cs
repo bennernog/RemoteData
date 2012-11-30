@@ -63,18 +63,22 @@ namespace RemoteData
 						var ivProfile = FindViewById<ImageView> (Resource.Id.ivProfileH);
 						var tvName = FindViewById<TextView> (Resource.Id.tvNameH);
 						var tvScreenName = FindViewById<TextView> (Resource.Id.tvScreenNameH);
+
+						// TODO group RunOnUiThread
 						RunOnUiThread (() => tvName.Text = twt.UserName);
 						RunOnUiThread (() => tvScreenName.Text = "@"+twt.ScreenName);
-						//RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
-						downloadImage (twt.ProfileImageUrl);
+						RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
+						//downloadImage (twt.ProfileImageUrl);
 						listView.Adapter = listAdapter;
 						
 						listView.ItemClick += ListClick;
 
 					}
 				} catch (WebException we) {
+					// TODO: use String.Format :)
 					Console.Error.WriteLine ("WebException : " + we.Message);
 				} catch (System.Exception sysExc) {
+					// TODO: use String.Format :)
 					Console.Error.WriteLine ("System.Exception : " + sysExc.Message + "\n" + sysExc.StackTrace);
 				}	
 			} else {

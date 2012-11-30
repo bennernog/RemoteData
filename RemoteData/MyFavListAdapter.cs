@@ -50,7 +50,8 @@ namespace RemoteData
 			
 			var tweet = Items [position];  
 			var tDate = new Date (tweet.StatusDate);
-			
+
+			// TODO group RunOnUiThread
 			myActivity.RunOnUiThread (() => ivProfile.SetImageBitmap (tweet.ProfileImage));
 			myActivity.RunOnUiThread (() => tvScreenName.Text = "@"+tweet.ScreenName);
 			myActivity.RunOnUiThread (() => tvName.Text = tweet.UserName);
