@@ -39,10 +39,19 @@ namespace RemoteData
 		{
 			var values = new ContentValues ();
 			values.Put ("Source", tweet.SourceString);
+			values.Put ("ID", tweet.ID);
 
 			return twtHelp.WritableDatabase.Insert ("Tweet", null, values);
 		}
-		
+
+		public void DeleteTweet (string tweetID)
+		{
+			string[] vals = new string[1];
+			vals[0] = tweetID;
+			
+			twtHelp.WritableDatabase.Delete ("Tweet", "Id=?", vals);
+		}
+
 		private Tweet NewTweet (Android.Database.ICursor cursor)
 		{
 			var j = JsonValue.Parse (cursor.GetString (1));
@@ -50,6 +59,7 @@ namespace RemoteData
 
 			return (twt);
 		}
+
 	}
 }
 

@@ -17,7 +17,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etUser"
-        android:hint="Enter twitter Name" />
+        android:hint="Enter twitter Name"
+        android:text="rickygervai" />
     <Button
         android:id="@+id/myButton"
         android:layout_width="fill_parent"

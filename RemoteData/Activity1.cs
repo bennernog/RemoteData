@@ -44,33 +44,19 @@ namespace RemoteData
 			tv = FindViewById<TextView> (Resource.Id.tv1);
 			listView = FindViewById<ListView>(Resource.Id.lvResult);
 			
-			user.AfterTextChanged += usernameForRequest;
 			button.Click += twitter_DownloadString;
-			listView.ItemClick += listView_ItemClick;
 		
-		}
-		void listView_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
-		{
-			Toast.MakeText(this, " Clicked!", ToastLength.Short).Show();
-		}
-
-		void usernameForRequest (object sender, EventArgs e)
-		{
-			userName = user.Text;
 		}
 
 		private void twitter_DownloadString (object sender, EventArgs e)
 		{
+			userName = user.Text;
 			if (userName != null) {
 				//TODO count issue
 				/* I don't always get the correct count (see ViewTweetsActivity)
 				 */
 				string Url = "http://api.twitter.com/1/statuses/user_timeline.json?screen_name=" + userName + "&count=5";
-				//TODO progressdialog issue
-				/*wanted to show a progressdialog while downloading tweets, but i'm getting error messages?
-				 */
-				//progressDialog = ProgressDialog.Show(this, "Downloading Tweets", "looking for "+userName, true);
-
+				progressDialog = ProgressDialog.Show(this, "Downloading Tweets", String.Format("looking for {0}",userName), true);
 				WebClient twitter = new WebClient ();
 				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
 				twitter.DownloadStringAsync (new System.Uri (Url));
@@ -84,7 +70,6 @@ namespace RemoteData
 			if (e.Error != null)
 				return;
 			try {
-				//progressDialog.Hide();
 				string result = e.Result;
 				Console.WriteLine (result);
 				Intent intent = new Intent(this, typeof (ViewTweetsActivity));
@@ -93,10 +78,19 @@ namespace RemoteData
 				Finish ();
 			
 			} catch (WebException we) {
-				Console.Error.WriteLine ("WebException : " + we.Message);
+				Console.Error.WriteLine (String.Format("WebException : {0}" , we.Message));
 			} catch (System.Exception sysExc) {
-				Console.Error.WriteLine ("System.Exception : " + sysExc.Message + "\n" +sysExc.StackTrace);
+				Console.Error.WriteLine (String.Format("System.Exception : {0}\n{1}" , sysExc.Message , sysExc.StackTrace));
 			}	
+		}
+		protected override void OnPause ()
+		{
+			base.OnPause ();
+			
+			if (progressDialog != null) {
+				progressDialog.Dismiss ();
+				progressDialog = null;
+			}
 		}
 
 	}

@@ -22,13 +22,15 @@ namespace RemoteData
 		public string StatusDate { get; set; }
 		public string UserName { get; set; }
 		public string ScreenName { get; set; }
+		public string ProfileImageUrl { get; set; }
 		public Bitmap ProfileImage { get; set; }
-
+		public string ID { get; set; }
 		public string SourceString { get; set; }
 
 		public Tweet(JsonValue source)
 		{
 			this.SourceString = source.ToString ();
+			this.ID = GetID (source).ToString ();
 			var result = source;
 			var text = result ["text"];
 			var date = result ["created_at"];
@@ -43,7 +45,17 @@ namespace RemoteData
 			this.StatusDate = displayString (date);
             this.UserName = displayString (name);
            	this.ScreenName = displayString (screen_name);
+			this.ProfileImageUrl = displayString (imageUrl);
 			downloadImage (displayString (imageUrl));
+		}
+		private int GetID (JsonValue source)
+		{
+			int i = source.ToString ().Length;
+			var text = source ["text"];
+			string s =text.ToString ();
+
+			return i + s.Length;
+
 		}
 		private string displayString (JsonValue input)
 		{

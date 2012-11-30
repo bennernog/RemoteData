@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dip"
             android:layout_marginTop="10dip"
-            android:background="@drawable/frame2">
+            android:background="@drawable/frame_b">
             <ImageView
                 android:src="@drawable/twitter_logo"
                 android:layout_width="50dip"

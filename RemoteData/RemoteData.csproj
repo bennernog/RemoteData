@@ -62,6 +62,7 @@
     <Compile Include="TweetCommands.cs" />
     <Compile Include="TweetHelper.cs" />
     <Compile Include="ViewFavTWeetsActivity.cs" />
+    <Compile Include="MyFavListAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -78,11 +79,13 @@
     <AndroidResource Include="Resources\drawable\twitter_logo.png" />
     <AndroidResource Include="Resources\layout\tweet_display.axml" />
     <AndroidResource Include="Resources\layout\list.axml" />
-    <AndroidResource Include="Resources\layout\list_header.axml" />
     <AndroidResource Include="Resources\drawable\frame1.xml" />
     <AndroidResource Include="Resources\drawable\frame3.xml" />
     <AndroidResource Include="Resources\drawable\frame2.xml" />
     <AndroidResource Include="Resources\layout\fav_list.axml" />
+    <AndroidResource Include="Resources\layout\list_tweet.axml" />
+    <AndroidResource Include="Resources\drawable\picframe.xml" />
+    <AndroidResource Include="Resources\drawable\frame_b.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

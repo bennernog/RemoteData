@@ -4,6 +4,75 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="5dip">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1"
+        android:layout_marginBottom="10dip">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/frame_b">
+            <ImageView
+                android:src="@drawable/twitter_logo"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:id="@+id/ivProfileH"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayout3"
+            android:layout_marginLeft="25dip"
+            android:layout_marginTop="10dip"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+            <TextView
+                android:text="Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvNameH"
+                android:textColor="#ff000000" />
+            <TextView
+                android:text="Screen Name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvScreenNameH"
+                android:textColor="#999999" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3">
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/ibBack"
+                android:layout_weight="1" />
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/ibFavs"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"

@@ -20,7 +20,8 @@ namespace RemoteData
 	public class ViewFavTweetsActivity : Activity
 	{
 		ListView listView;
-		MyListAdapter listAdapter;
+		MyFavListAdapter listAdapter;
+		List<Tweet> allFavTweets;
 		
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -28,7 +29,7 @@ namespace RemoteData
 			SetContentView (Resource.Layout.fav_list);
 
 			listView = FindViewById<ListView> (Resource.Id.fav_list);
-			List<Tweet> allFavTweets = new List<Tweet> ();
+			allFavTweets = new List<Tweet> ();
 
 			try {
 				var dbT = new TweetCommands (this);
@@ -40,7 +41,7 @@ namespace RemoteData
 
 			if (allFavTweets.Count > 0) {
 				try {
-						listAdapter = new MyListAdapter (this, allFavTweets);
+						listAdapter = new MyFavListAdapter (this, allFavTweets);
 						listView.Adapter = listAdapter;
 						listView.ItemClick += ListClick;
 
@@ -59,7 +60,25 @@ namespace RemoteData
 		{
 			//TODO delete tweet from db (no questions for now)
 			int i = (int)listAdapter.GetItemId (args.Position);
-			Toast.MakeText(this, "clicked "+i.ToString (), ToastLength.Short).Show();			
+			Toast.MakeText(this, "clicked "+i.ToString (), ToastLength.Short).Show();		
+
+			AlertDialog.Builder alert = new AlertDialog.Builder (this);
+			alert.SetTitle("Alert!");
+			alert.SetMessage("This is the content of the alert");
+			alert.SetPositiveButton("Delete tweet", delegate {
+				var dbT = new TweetCommands (this);
+				Tweet tw = allFavTweets [args.Position];
+				dbT.DeleteTweet (tw.ID);
+				Toast.MakeText(this, "Clicked ok", ToastLength.Short).Show();
+			});
+			alert.SetNeutralButton("New Search", delegate {
+				StartActivity (typeof (Activity1));
+				Finish ();
+			});
+			alert.SetNegativeButton("Cancel", delegate {
+				Toast.MakeText(this, "Clicked cancel", ToastLength.Short).Show();
+			});
+			alert.Show ();
 		}
 	}
 }
