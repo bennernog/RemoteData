@@ -22,6 +22,9 @@ namespace RemoteData
 		// TODO event
 		// add a static delegate here (takes a parameter Bitmap)
 		// add a static event here of the delegate type defined in the previous line
+		// This way other classes can easily subscribe to a profile picture downloaded event.
+		// It's basically an alternate way of doing things.
+
 		public string StatusText { get; set; }
 		public string StatusDate { get; set; }
 		public string UserName { get; set; }
