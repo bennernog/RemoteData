@@ -33,6 +33,9 @@ namespace RemoteData
 			sourceString = Intent.GetStringExtra(SOURCE) ?? "error";
 			listView = FindViewById<ListView> (Resource.Id.list);
 			ivProfile = FindViewById<ImageView> (Resource.Id.ivProfileH);
+
+			// TODO event
+			// subscribe to the event in the Tweet class -> add your handler for what to do with the bitmap
 			if (sourceString != null && !sourceString.Equals ("error")) {
 				try {
 
@@ -94,6 +97,9 @@ namespace RemoteData
 				RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
 			}
 		}
+
+		// TODO event
+		// Define your handler that you will use above
 	}
 }
 

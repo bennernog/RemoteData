@@ -71,7 +71,7 @@ namespace RemoteData
 				Intent intent = new Intent(this, typeof (ViewTweetsActivity));
 				intent.PutExtra(SOURCE, result);
 				StartActivity (intent);
-				Finish ();
+				//Finish ();
 			
 			} catch (WebException we) {
 				Console.Error.WriteLine (String.Format("WebException : {0}" , we.Message));

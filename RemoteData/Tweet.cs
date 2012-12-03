@@ -18,6 +18,10 @@ namespace RemoteData
 {
 	public class Tweet
 	{
+
+		// TODO event
+		// add a static delegate here (takes a parameter Bitmap)
+		// add a static event here of the delegate type defined in the previous line
 		public string StatusText { get; set; }
 		public string StatusDate { get; set; }
 		public string UserName { get; set; }
@@ -78,7 +82,10 @@ namespace RemoteData
 			if (e.Error != null) {
 				return;
 			} else {				
-				bm = BitmapFactory.DecodeByteArray(e.Result, 0, e.Result.Length);							
+				bm = BitmapFactory.DecodeByteArray(e.Result, 0, e.Result.Length);	
+				// TODO event
+				// check whether the event (defined above) is not null
+				// if not null, fire the event with bm as parameter
 			}
 			
 			this.ProfileImage = bm;
