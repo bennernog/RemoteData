@@ -36,6 +36,7 @@ namespace RemoteData
 
 			// TODO event
 			// subscribe to the event in the Tweet class -> add your handler for what to do with the bitmap
+			Tweet.DownloadCompleted += HandleDownloadCompleted;
 			if (sourceString != null && !sourceString.Equals ("error")) {
 				try {
 
@@ -59,7 +60,7 @@ namespace RemoteData
 
 						RunOnUiThread (() => 
 						{
-							twt.DownloadImage (web_DownloadDataCompleted);
+							//twt.DownloadImage (web_DownloadDataCompleted);
 							tvName.Text = twt.UserName;
 							tvScreenName.Text = "@"+twt.ScreenName;
 						});
@@ -79,6 +80,7 @@ namespace RemoteData
 				Finish ();
 			}
 		}
+
 		public void ListClick (object sender, AdapterView.ItemClickEventArgs args)
 		{
 			Tweet t = listAdapter.GetTweet (args.Position);
@@ -94,12 +96,17 @@ namespace RemoteData
 				return;
 			} else {	
 				pic = BitmapFactory.DecodeByteArray(e.Result, 0, e.Result.Length);	
-				RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
+				//RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
 			}
 		}
 
 		// TODO event
 		// Define your handler that you will use above
+		void HandleDownloadCompleted (Bitmap bm)
+		{
+			Tweet.DownloadCompleted -= HandleDownloadCompleted;
+			RunOnUiThread (() => ivProfile.SetImageBitmap (bm));
+		}
 	}
 }
 

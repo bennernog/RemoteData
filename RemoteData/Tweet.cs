@@ -20,8 +20,10 @@ namespace RemoteData
 	{
 
 		// TODO event
-		// add a static delegate here (takes a parameter Bitmap)
+		// add a delegate here (takes a parameter Bitmap)
+		public delegate void ImageDownloadedHandler (Bitmap bm);
 		// add a static event here of the delegate type defined in the previous line
+		public static event ImageDownloadedHandler DownloadCompleted;
 		// This way other classes can easily subscribe to a profile picture downloaded event.
 		// It's basically an alternate way of doing things.
 
@@ -89,6 +91,9 @@ namespace RemoteData
 				// TODO event
 				// check whether the event (defined above) is not null
 				// if not null, fire the event with bm as parameter
+				if (DownloadCompleted != null) {
+					DownloadCompleted (bm);
+				}
 			}
 			
 			this.ProfileImage = bm;
