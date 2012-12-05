@@ -21,22 +21,32 @@ namespace RemoteData
 	{
 		readonly string SOURCE = "SOURCE";
 		string sourceString = "error";
+		ImageView ivProfile;
+		TextView tvScreenName, tvName;
+		ImageButton newSearch, seeFavs;
 		ListView listView;
 		MyListAdapter listAdapter;
-		Bitmap pic;
-		ImageView ivProfile;
 
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.list);
 			sourceString = Intent.GetStringExtra(SOURCE) ?? "error";
+
 			listView = FindViewById<ListView> (Resource.Id.list);
 			ivProfile = FindViewById<ImageView> (Resource.Id.ivProfileH);
+			tvName = FindViewById<TextView> (Resource.Id.tvNameH);
+			tvScreenName = FindViewById<TextView> (Resource.Id.tvScreenNameH);
+			newSearch = FindViewById<ImageButton> (Resource.Id.ibNew);
+			seeFavs = FindViewById<ImageButton> (Resource.Id.ibFavs);
 
-			// TODO event
-			// subscribe to the event in the Tweet class -> add your handler for what to do with the bitmap
+			tvName.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Bold.ttf");
+			tvScreenName.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Regular Italic.ttf");
+
+			newSearch.Click += button_Click;
+			seeFavs.Click += button_Click;
 			Tweet.DownloadCompleted += HandleDownloadCompleted;
+
 			if (sourceString != null && !sourceString.Equals ("error")) {
 				try {
 
@@ -49,18 +59,11 @@ namespace RemoteData
 					}
 
 					if (tweets.Count > 0) {
-						//TODO HEADER issue
-						/* like this?
-						 */
 						listAdapter = new MyListAdapter (this, tweets);
 						Tweet twt = listAdapter.GetTweet (1);
 
-						var tvName = FindViewById<TextView> (Resource.Id.tvNameH);
-						var tvScreenName = FindViewById<TextView> (Resource.Id.tvScreenNameH);
-
 						RunOnUiThread (() => 
 						{
-							//twt.DownloadImage (web_DownloadDataCompleted);
 							tvName.Text = twt.UserName;
 							tvScreenName.Text = "@"+twt.ScreenName;
 						});
@@ -80,28 +83,36 @@ namespace RemoteData
 				Finish ();
 			}
 		}
-
-		public void ListClick (object sender, AdapterView.ItemClickEventArgs args)
+		void button_Click (object sender, EventArgs e)
 		{
-			Tweet t = listAdapter.GetTweet (args.Position);
-			var dbT = new TweetCommands (this);
-			dbT.AddTweet (t);
-
-			StartActivity(typeof (ViewFavTweetsActivity));
-			Finish ();
-		}
-		void web_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
-		{
-			if (e.Error != null) {
-				return;
-			} else {	
-				pic = BitmapFactory.DecodeByteArray(e.Result, 0, e.Result.Length);	
-				//RunOnUiThread (() => ivProfile.SetImageBitmap (pic));
+			switch (((ImageButton)sender).Id) {
+			case Resource.Id.ibNew:
+				StartActivity (typeof (Activity1));
+				Finish ();
+				break;
+			case Resource.Id.ibFavs:
+				StartActivity (typeof (ViewFavTweetsActivity));
+				break;
+			default:
+				break;
 			}
 		}
+		public void ListClick (object sender, AdapterView.ItemClickEventArgs args)
+		{
+			var alert = new AlertDialog.Builder (this);
+			alert.SetTitle("Add to Favourites?");
+			alert.SetMessage("Do you wish to add this tweet to your favorites?");
+			alert.SetPositiveButton("add tweet", delegate {
+				Tweet t = listAdapter.GetTweet (args.Position);
+				var dbT = new TweetCommands (this);
+				dbT.AddTweet (t);
+				StartActivity (typeof (ViewFavTweetsActivity));
+			});
+			alert.SetNegativeButton("Cancel", delegate {
 
-		// TODO event
-		// Define your handler that you will use above
+			});
+			alert.Show ();
+		}
 		void HandleDownloadCompleted (Bitmap bm)
 		{
 			Tweet.DownloadCompleted -= HandleDownloadCompleted;

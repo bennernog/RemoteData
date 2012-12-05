@@ -3,82 +3,93 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/frame1"
-    android:padding="5dip">
+    android:padding="5dip"
+    android:background="#ff6495ed">
     <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1"
-        android:layout_marginBottom="20dip">
+        android:background="@drawable/frame1"
+        android:padding="5dip">
         <LinearLayout
             android:orientation="horizontal"
             android:minWidth="25px"
             android:minHeight="25px"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
-            android:layout_marginTop="10dip"
-            android:background="@drawable/frame_b">
-            <ImageView
-                android:src="@drawable/twitter_logo"
-                android:layout_width="50dip"
-                android:layout_height="50dip"
-                android:id="@+id/ivProfile"
-                android:scaleType="fitCenter" />
+            android:id="@+id/linearLayout1"
+            android:layout_marginBottom="20dip">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_marginTop="10dip"
+                android:background="@drawable/pic_frame_grey">
+                <ImageView
+                    android:src="@drawable/twitter_logo"
+                    android:layout_width="50dip"
+                    android:layout_height="50dip"
+                    android:id="@+id/ivProfile"
+                    android:scaleType="fitCenter" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/linearLayout3"
+                android:layout_marginLeft="25dip"
+                android:layout_marginTop="10dip"
+                android:gravity="center_vertical">
+                <TextView
+                    android:text="Name"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvName"
+                    android:textColor="#ff000000" />
+                <TextView
+                    android:text="Screen Name"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvScreenName"
+                    android:textColor="#999999" />
+            </LinearLayout>
         </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#777777" />
         <LinearLayout
             android:orientation="vertical"
             android:minWidth="25px"
             android:minHeight="25px"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/linearLayout3"
-            android:layout_marginLeft="25dip"
-            android:layout_marginTop="10dip"
-            android:gravity="center_vertical">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout2"
+            android:padding="4dip">
             <TextView
-                android:text="Name"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Tweet Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvName"
-                android:textColor="#ff000000" />
+                android:id="@+id/tvTweet"
+                android:textColor="#ff000000"
+                android:layout_marginBottom="10dip"
+                android:layout_marginLeft="20dip" />
             <TextView
-                android:text="Screen Name"
+                android:text="post date"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvScreenName"
-                android:textColor="#999999" />
+                android:id="@+id/tvDate"
+                android:textColor="#999999"
+                android:gravity="right" />
         </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2"
-        android:padding="4dip">
-        <TextView
-            android:text="Tweet Text"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvTweet"
-            android:textColor="#ff000000"
-            android:layout_marginBottom="10dip"
-            android:layout_marginLeft="20dip" />
-        <TextView
-            android:text="post date"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvDate"
-            android:textColor="#999999"
-            android:gravity="right" />
     </LinearLayout>
 </LinearLayout>

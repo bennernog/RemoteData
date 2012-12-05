@@ -3,7 +3,8 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="5dip">
+    android:padding="5dip"
+    android:background="#ff6495ed">
     <LinearLayout
         android:orientation="horizontal"
         android:minWidth="25px"
@@ -18,9 +19,9 @@
             android:minHeight="25px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dip"
+            android:layout_marginLeft="10dip"
             android:layout_marginTop="10dip"
-            android:background="@drawable/frame_b">
+            android:background="@drawable/pic_frame_white">
             <ImageView
                 android:src="@drawable/twitter_logo"
                 android:layout_width="50dip"
@@ -41,7 +42,7 @@
             android:layout_weight="1">
             <TextView
                 android:text="Name"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvNameH"
@@ -52,7 +53,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvScreenNameH"
-                android:textColor="#999999" />
+                android:textColor="#FFFFFF" />
         </LinearLayout>
         <LinearLayout
             android:orientation="vertical"
@@ -62,21 +63,30 @@
             android:layout_height="fill_parent"
             android:layout_weight="3">
             <ImageButton
-                android:layout_width="fill_parent"
+                android:layout_width="30dip"
                 android:layout_height="fill_parent"
-                android:id="@+id/ibBack"
-                android:layout_weight="1" />
+                android:id="@+id/ibNew"
+                android:layout_weight="1"
+                android:src="@drawable/tw_search"
+                android:background="#00000000" />
             <ImageButton
-                android:layout_width="fill_parent"
+                android:layout_width="30dip"
                 android:layout_height="fill_parent"
                 android:id="@+id/ibFavs"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:src="@drawable/tw_favs"
+                android:background="#00000000" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#FFFFFF" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/list" />
+        android:id="@+id/list"
+        android:background="#ff6495ed" />
 </LinearLayout>

@@ -45,6 +45,8 @@ namespace RemoteData
 			var tvTweet = view.FindViewById (Resource.Id.tvTweet) as TextView;
 			var tvDate = view.FindViewById (Resource.Id.tvDate) as TextView;
 
+			tvDate.Typeface = Typeface.CreateFromAsset (myActivity.Assets, "fonts/Greyscale Basic Regular Italic.ttf");
+
 			var tweet = Items [position];  
 			var tDate = new Date (tweet.StatusDate);
 

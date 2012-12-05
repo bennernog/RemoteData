@@ -50,23 +50,21 @@ namespace RemoteData
 					Console.Error.WriteLine ("System.Exception : " + sysExc.Message + "\n" + sysExc.StackTrace);
 				}	
 			} else {
-				Toast.MakeText(this, "Something went wrong", ToastLength.Short).Show();
-				StartActivity(typeof (Activity1));
+				Toast.MakeText(this, "no tweets in memory", ToastLength.Short).Show();
+				//StartActivity(typeof (Activity1));
 				Finish ();
 			}
 		}
 		public void ListClick (object sender, AdapterView.ItemClickEventArgs args)
 		{
 			var alert = new AlertDialog.Builder (this);
-			alert.SetTitle("Alert!");
-			alert.SetMessage("This is the content of the alert");
+			alert.SetTitle("Are You Sure?");
+			alert.SetMessage("Do you wish to delete this tweet from favorites?");
 			alert.SetPositiveButton("Delete tweet", delegate {
 				var dbT = new TweetCommands (this);
 				Tweet tw = allFavTweets [args.Position];
 				dbT.DeleteTweet (tw.ID);
-			});
-			alert.SetNeutralButton("New Search", delegate {
-				StartActivity (typeof (Activity1));
+				StartActivity (typeof (ViewFavTweetsActivity));
 				Finish ();
 			});
 			alert.SetNegativeButton("Cancel", delegate {

@@ -1,6 +1,11 @@
-﻿<Properties>
+﻿<Properties GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RemoteData\ViewTweetsActivity.cs">
+    <Files>
+      <File FileName="RemoteData\ViewTweetsActivity.cs" Line="97" Column="41" />
+      <File FileName="RemoteData\Resources\drawable\frame1.xml" Line="5" Column="31" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/Activity1.cs" line="82" />

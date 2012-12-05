@@ -27,25 +27,40 @@ namespace RemoteData
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int frame1 = 2130837504;
+			public const int cover = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int frame2 = 2130837505;
+			public const int frame1 = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int frame3 = 2130837506;
+			public const int frame_b = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int frame_b = 2130837507;
+			public const int frame_g = 2130837507;
 			
 			// aapt resource value: 0x7f020004
 			public const int Icon = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int picframe = 2130837509;
+			public const int pic_frame_grey = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int twitter_logo = 2130837510;
+			public const int pic_frame_white = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int tw_favs = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int tw_search = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int tw_search_b = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int twitter_logo = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int white_border = 2130837515;
 			
 			private Drawable()
 			{
@@ -61,17 +76,17 @@ namespace RemoteData
 			// aapt resource value: 0x7f050000
 			public const int fav_list = 2131034112;
 			
-			// aapt resource value: 0x7f050006
-			public const int ibBack = 2131034118;
-			
 			// aapt resource value: 0x7f050007
 			public const int ibFavs = 2131034119;
+			
+			// aapt resource value: 0x7f050006
+			public const int ibNew = 2131034118;
 			
 			// aapt resource value: 0x7f05000b
 			public const int iv = 2131034123;
 			
-			// aapt resource value: 0x7f050010
-			public const int ivProfile = 2131034128;
+			// aapt resource value: 0x7f05000f
+			public const int ivProfile = 2131034127;
 			
 			// aapt resource value: 0x7f050002
 			public const int ivProfileH = 2131034114;
@@ -79,17 +94,14 @@ namespace RemoteData
 			// aapt resource value: 0x7f050001
 			public const int linearLayout1 = 2131034113;
 			
-			// aapt resource value: 0x7f050013
-			public const int linearLayout2 = 2131034131;
+			// aapt resource value: 0x7f050012
+			public const int linearLayout2 = 2131034130;
 			
 			// aapt resource value: 0x7f050003
 			public const int linearLayout3 = 2131034115;
 			
 			// aapt resource value: 0x7f050008
 			public const int list = 2131034120;
-			
-			// aapt resource value: 0x7f05000f
-			public const int lvResult = 2131034127;
 			
 			// aapt resource value: 0x7f05000d
 			public const int myButton = 2131034125;
@@ -100,14 +112,14 @@ namespace RemoteData
 			// aapt resource value: 0x7f05000a
 			public const int tvDate = 2131034122;
 			
-			// aapt resource value: 0x7f050011
-			public const int tvName = 2131034129;
+			// aapt resource value: 0x7f050010
+			public const int tvName = 2131034128;
 			
 			// aapt resource value: 0x7f050004
 			public const int tvNameH = 2131034116;
 			
-			// aapt resource value: 0x7f050012
-			public const int tvScreenName = 2131034130;
+			// aapt resource value: 0x7f050011
+			public const int tvScreenName = 2131034129;
 			
 			// aapt resource value: 0x7f050005
 			public const int tvScreenNameH = 2131034117;

@@ -80,15 +80,27 @@
     <AndroidResource Include="Resources\layout\tweet_display.axml" />
     <AndroidResource Include="Resources\layout\list.axml" />
     <AndroidResource Include="Resources\drawable\frame1.xml" />
-    <AndroidResource Include="Resources\drawable\frame3.xml" />
-    <AndroidResource Include="Resources\drawable\frame2.xml" />
     <AndroidResource Include="Resources\layout\fav_list.axml" />
     <AndroidResource Include="Resources\layout\list_tweet.axml" />
-    <AndroidResource Include="Resources\drawable\picframe.xml" />
     <AndroidResource Include="Resources\drawable\frame_b.xml" />
+    <AndroidResource Include="Resources\drawable\frame_g.xml" />
+    <AndroidResource Include="Resources\drawable\cover.png" />
+    <AndroidResource Include="Resources\drawable\tw_search.png" />
+    <AndroidResource Include="Resources\drawable\tw_favs.png" />
+    <AndroidResource Include="Resources\drawable\white_border.xml" />
+    <AndroidResource Include="Resources\drawable\tw_search_b.png" />
+    <AndroidResource Include="Resources\drawable\pic_frame_white.xml" />
+    <AndroidResource Include="Resources\drawable\pic_frame_grey.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="tries\" />
+    <Folder Include="Assets\fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\fonts\Greyscale Basic Bold.ttf" />
+    <AndroidAsset Include="Assets\fonts\Greyscale Basic Bold Italic.ttf" />
+    <AndroidAsset Include="Assets\fonts\Greyscale Basic Regular.ttf" />
+    <AndroidAsset Include="Assets\fonts\Greyscale Basic Regular Italic.ttf" />
   </ItemGroup>
 </Project>

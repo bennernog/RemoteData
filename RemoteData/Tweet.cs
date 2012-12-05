@@ -19,13 +19,8 @@ namespace RemoteData
 	public class Tweet
 	{
 
-		// TODO event
-		// add a delegate here (takes a parameter Bitmap)
 		public delegate void ImageDownloadedHandler (Bitmap bm);
-		// add a static event here of the delegate type defined in the previous line
 		public static event ImageDownloadedHandler DownloadCompleted;
-		// This way other classes can easily subscribe to a profile picture downloaded event.
-		// It's basically an alternate way of doing things.
 
 		public string StatusText { get; set; }
 		public string StatusDate { get; set; }
@@ -57,6 +52,7 @@ namespace RemoteData
 			this.ProfileImageUrl = displayString (imageUrl);
 			DownloadImage (web_DownloadDataCompleted);
 		}
+
 		private int GetID (JsonValue source)
 		{
 			int i = source.ToString ().Length;
@@ -64,38 +60,66 @@ namespace RemoteData
 			string s =text.ToString ();
 
 			return i + s.Length;
-
 		}
+
 		private string displayString (JsonValue input)
 		{
 			string s = input.ToString ();
+			amper (s);
 			int l = s.Length-2;
 			string output = s.Substring(1, l);
-			return output;
+			System.Web.HttpUtility.HtmlDecode (output);
+			return /*amper (*/output/*)*/;
 		}
-		public void DownloadImage (DownloadDataCompletedEventHandler downloadDataCompleted)
+		private string amper (string input)
 		{
-
+			string[] txt;
+			int x;
+			string result = null;
+			if (input.Contains ("&")) {
+				txt = input.Split ('&');
+				x = txt.Length;
+				if (x>0){
+					result = txt [0];
+					for (int i = 1 ; i < x ; i++) {
+						var temp = txt [i];
+						result += reformat (temp);
+					}
+				} 
+			}
+			return (result != null) ? result : input;
+		}
+		string reformat (string input)
+		{
+			int index = input.IndexOf (';') + 1;
+			string s = null;
+			if (input.StartsWith ("amp")) {
+				s = "&";
+			} else if (input.StartsWith ("lt")) {
+				s = "<";
+			} else if (input.StartsWith ("gt")) {
+				s = ">";
+			}
+			return String.Format ("{0}{1}", s, input.Substring (index));
+		}
+		void DownloadImage (DownloadDataCompletedEventHandler downloadDataCompleted)
+		{
 			WebClient web = new WebClient();
 			web.DownloadDataAsync(new System.Uri (ProfileImageUrl));
 			web.DownloadDataCompleted += new DownloadDataCompletedEventHandler(downloadDataCompleted);
-
 		}
+
 		void web_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
 		{
 			Bitmap bm;
 			if (e.Error != null) {
 				return;
 			} else {				
-				bm = BitmapFactory.DecodeByteArray(e.Result, 0, e.Result.Length);	
-				// TODO event
-				// check whether the event (defined above) is not null
-				// if not null, fire the event with bm as parameter
+				bm = BitmapFactory.DecodeByteArray(e.Result, 0, e.Result.Length);
 				if (DownloadCompleted != null) {
 					DownloadCompleted (bm);
 				}
-			}
-			
+			}			
 			this.ProfileImage = bm;
 		}
 	}
