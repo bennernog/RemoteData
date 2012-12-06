@@ -111,6 +111,7 @@ namespace RemoteData
 		{
 			var c = tvTweetCount.Text; 
 			userName = user.Text;
+
 			if (userName.Length >0) {
 				editor = prefs.Edit ();
 				if (newName (userName)){
@@ -119,19 +120,27 @@ namespace RemoteData
 				}
 				editor.PutInt (COUNT, tweetCount);
 				editor.Commit ();
-				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count={1}",userName, c);
+
 				progressDialog = ProgressDialog.Show(this, "Downloading Tweets", String.Format("looking for {0}",userName), true);
+				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count={1}",userName, c);
 				WebClient twitter = new WebClient ();
 				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
 				twitter.DownloadStringAsync (new System.Uri (Url));
 			} else {
-				Toast.MakeText(ApplicationContext, "Enter twitter Name", ToastLength.Short).Show();
+				Toast.MakeText(ApplicationContext, "Enter a twitter name", ToastLength.Short).Show();
 			}
 		}
 		
 		void twitter_DownloadStringCompleted (object sender, DownloadStringCompletedEventArgs e)
 		{
-			if (e.Error == null) {
+			if (e.Error != null) {
+				Console.Error.WriteLine (String.Format ("Error: {0}", e.Error));
+				if (progressDialog != null) {
+					progressDialog.Dismiss ();
+					progressDialog = null;
+				}
+				RunOnUiThread (() => Toast.MakeText(this, "Something went wrong!\nCheck spelling and try again.", ToastLength.Short).Show());
+			} else {
 				try {
 					string result = e.Result;
 					Intent intent = new Intent(this, typeof (ViewTweetsActivity));
@@ -141,19 +150,8 @@ namespace RemoteData
 				} catch (WebException we) {
 					Console.Error.WriteLine (String.Format("WebException : {0}" , we.Message));
 				} catch (System.Exception sysExc) {
-					Console.Error.WriteLine (String.Format("System.Exception : {0}\n{1}" , sysExc.Message , e.Error));//10484778
-
+					Console.Error.WriteLine (String.Format("System.Exception : {0}\n{1}" , sysExc.Message , sysExc.StackTrace));
 				}
-			} else {
-				Console.Error.WriteLine (String.Format ("Error: {0}", e.Error));
-				if (progressDialog != null) {
-					progressDialog.Dismiss ();
-					progressDialog = null;
-				}
-				RunOnUiThread (() => {
-					user.Text = "";
-					Toast.MakeText(this, "Enter correct twitter Name", ToastLength.Short).Show();
-				});
 			}
 		}
 

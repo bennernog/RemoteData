@@ -60,7 +60,7 @@ namespace RemoteData
 
 					if (tweets.Count > 0) {
 						listAdapter = new MyListAdapter (this, tweets);
-						Tweet twt = listAdapter.GetTweet (1);
+						Tweet twt = listAdapter.GetTweet (0);
 
 						RunOnUiThread (() => 
 						{
@@ -99,19 +99,10 @@ namespace RemoteData
 		}
 		public void ListClick (object sender, AdapterView.ItemClickEventArgs args)
 		{
-			var alert = new AlertDialog.Builder (this);
-			alert.SetTitle("Add to Favourites?");
-			alert.SetMessage("Do you wish to add this tweet to your favorites?");
-			alert.SetPositiveButton("add tweet", delegate {
-				Tweet t = listAdapter.GetTweet (args.Position);
-				var dbT = new TweetCommands (this);
-				dbT.AddTweet (t);
-				StartActivity (typeof (ViewFavTweetsActivity));
-			});
-			alert.SetNegativeButton("Cancel", delegate {
-
-			});
-			alert.Show ();
+			Tweet t = listAdapter.GetTweet (args.Position);
+			var dbT = new TweetCommands (this);
+			dbT.AddTweet (t);
+			StartActivity (typeof (ViewFavTweetsActivity));
 		}
 		void HandleDownloadCompleted (Bitmap bm)
 		{
