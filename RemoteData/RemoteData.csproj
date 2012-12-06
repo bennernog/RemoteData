@@ -68,9 +68,6 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="tweetstringexample.txt" />
-    <None Include="tries\book.txt" />
-    <None Include="tries\monowebsite.txt" />
-    <None Include="tries\mytry1.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -83,7 +80,6 @@
     <AndroidResource Include="Resources\layout\fav_list.axml" />
     <AndroidResource Include="Resources\layout\list_tweet.axml" />
     <AndroidResource Include="Resources\drawable\frame_b.xml" />
-    <AndroidResource Include="Resources\drawable\frame_g.xml" />
     <AndroidResource Include="Resources\drawable\cover.png" />
     <AndroidResource Include="Resources\drawable\tw_search.png" />
     <AndroidResource Include="Resources\drawable\tw_favs.png" />
@@ -91,10 +87,29 @@
     <AndroidResource Include="Resources\drawable\tw_search_b.png" />
     <AndroidResource Include="Resources\drawable\pic_frame_white.xml" />
     <AndroidResource Include="Resources\drawable\pic_frame_grey.xml" />
+    <AndroidResource Include="Resources\drawable\white_fill.xml" />
+    <AndroidResource Include="Resources\drawable\white_fill_black_border.xml" />
+    <AndroidResource Include="Resources\drawable\drop_shadow.xml" />
+    <AndroidResource Include="Resources\drawable\shadow_layer.xml" />
+    <AndroidResource Include="Resources\drawable\tweet_frame_ds.xml" />
+    <AndroidResource Include="Resources\drawable\left_normal.xml" />
+    <AndroidResource Include="Resources\drawable\left_pressed.xml" />
+    <AndroidResource Include="Resources\drawable\left_focused.xml" />
+    <AndroidResource Include="Resources\drawable\left_button.xml" />
+    <AndroidResource Include="Resources\drawable\right_normal.xml" />
+    <AndroidResource Include="Resources\drawable\tw_favs_b.png" />
+    <AndroidResource Include="Resources\drawable\right_pressed.xml" />
+    <AndroidResource Include="Resources\drawable\right_focused.xml" />
+    <AndroidResource Include="Resources\drawable\right_button.xml" />
+    <AndroidResource Include="Resources\drawable\middle_normal.xml" />
+    <AndroidResource Include="Resources\drawable\middle_pressed.xml" />
+    <AndroidResource Include="Resources\drawable\middle_focused.xml" />
+    <AndroidResource Include="Resources\drawable\middle_button.xml" />
+    <AndroidResource Include="Resources\drawable\input.xml" />
+    <AndroidResource Include="Resources\drawable\count.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="tries\" />
     <Folder Include="Assets\fonts\" />
   </ItemGroup>
   <ItemGroup>

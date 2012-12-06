@@ -50,7 +50,6 @@ namespace RemoteData
 
 			tvName.Typeface = Typeface.CreateFromAsset (myActivity.Assets, "fonts/Greyscale Basic Bold.ttf");
 			tvScreenName.Typeface = Typeface.CreateFromAsset (myActivity.Assets, "fonts/Greyscale Basic Regular Italic.ttf");
-			tvDate.Typeface = Typeface.CreateFromAsset (myActivity.Assets, "fonts/Greyscale Basic Regular Italic.ttf");
 
 			var tweet = Items [position];  
 			var tDate = new Date (tweet.StatusDate);

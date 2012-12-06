@@ -5,7 +5,8 @@
     android:layout_height="fill_parent"
     android:padding="5dip"
     android:gravity="center_horizontal"
-    android:background="#ff6495ed">
+    android:background="#ff6495ed"
+    android:focusable="true">
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -16,26 +17,87 @@
         android:layout_marginBottom="10dip"
         android:layout_marginTop="10dip" />
     <AutoCompleteTextView
-        android:inputType="textPersonName"
-        android:textColor="#ffffffff"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etUser"
-        android:hint="Enter twitter Name"
-        android:text="flowpilots"
+        android:hint="Enter twitter name here"
         android:gravity="center"
-        android:background="@drawable/white_border"
-        android:selectAllOnFocus="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ff6495ed"
+        android:background="@drawable/input"
+        android:selectAllOnFocus="true"
+        android:minHeight="35dip"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#966495ed"
+        android:shadowColor="#90000000"
+        android:shadowDx="1"
+        android:shadowDy="1"
+        android:shadowRadius="1"
+        android:cursorVisible="false" />
     <ImageButton
         android:id="@+id/myButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="find tweets"
         android:src="@drawable/tw_search_b"
-        android:background="#00000000"
+        android:background="#00ffffff"
         android:layout_marginTop="10dip" />
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv1" />
+        android:layout_height="50dip"
+        android:padding="5dip"
+        android:gravity="center_horizontal"
+        android:background="#00000000"
+        android:layout_marginTop="20dip">
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:id="@+id/btnL"
+            android:text="-"
+            android:textColor="#ff6495ed"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/left_button"
+            android:shadowColor="#9B000000"
+            android:shadowDx="-1"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:gravity="center" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:id="@+id/tv1"
+            android:text="50"
+            android:textColor="#ff6495ed"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:shadowColor="#9B000000"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:background="@drawable/count"
+            android:gravity="center" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:id="@+id/btnM"
+            android:text="+"
+            android:textColor="#ff6495ed"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="@drawable/middle_button"
+            android:shadowColor="#9B000000"
+            android:shadowDx="-1"
+            android:shadowDy="-1"
+            android:shadowRadius="1" />
+        <ImageButton
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:id="@+id/btnR"
+            android:src="@drawable/tw_favs_b"
+            android:background="@drawable/right_button"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
 </LinearLayout>

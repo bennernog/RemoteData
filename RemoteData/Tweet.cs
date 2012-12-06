@@ -31,20 +31,19 @@ namespace RemoteData
 		public string ID { get; set; }
 		public string SourceString { get; set; }
 
-		public Tweet(JsonValue source)
+		public Tweet(JsonValue result)
 		{
-			this.SourceString = source.ToString ();
-			this.ID = GetID (source).ToString ();
-			var result = source;
 			var text = result ["text"];
 			var date = result ["created_at"];
 			var userInfo = result ["user"];
-
 			var user = JsonValue.Parse (userInfo.ToString ());
 			var name = user ["name"];
 			var screen_name = user ["screen_name"];
 			var imageUrl = user ["profile_image_url"];
+			var id = user ["id"];
 
+			this.SourceString = result.ToString ();
+			this.ID = id.ToString ();
 			this.StatusText = displayString (text);
 			this.StatusDate = displayString (date);
             this.UserName = displayString (name);
@@ -53,55 +52,12 @@ namespace RemoteData
 			DownloadImage (web_DownloadDataCompleted);
 		}
 
-		private int GetID (JsonValue source)
-		{
-			int i = source.ToString ().Length;
-			var text = source ["text"];
-			string s =text.ToString ();
-
-			return i + s.Length;
-		}
-
 		private string displayString (JsonValue input)
 		{
-			string s = input.ToString ();
-			amper (s);
-			int l = s.Length-2;
-			string output = s.Substring(1, l);
-			System.Web.HttpUtility.HtmlDecode (output);
-			return /*amper (*/output/*)*/;
+			var tmp = System.Web.HttpUtility.HtmlDecode (input);
+			return tmp;
 		}
-		private string amper (string input)
-		{
-			string[] txt;
-			int x;
-			string result = null;
-			if (input.Contains ("&")) {
-				txt = input.Split ('&');
-				x = txt.Length;
-				if (x>0){
-					result = txt [0];
-					for (int i = 1 ; i < x ; i++) {
-						var temp = txt [i];
-						result += reformat (temp);
-					}
-				} 
-			}
-			return (result != null) ? result : input;
-		}
-		string reformat (string input)
-		{
-			int index = input.IndexOf (';') + 1;
-			string s = null;
-			if (input.StartsWith ("amp")) {
-				s = "&";
-			} else if (input.StartsWith ("lt")) {
-				s = "<";
-			} else if (input.StartsWith ("gt")) {
-				s = ">";
-			}
-			return String.Format ("{0}{1}", s, input.Substring (index));
-		}
+
 		void DownloadImage (DownloadDataCompletedEventHandler downloadDataCompleted)
 		{
 			WebClient web = new WebClient();

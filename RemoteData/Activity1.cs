@@ -25,8 +25,9 @@ namespace RemoteData
 	{
 		ImageView image;
 		AutoCompleteTextView user;
-		ImageButton button;
-		TextView tv;
+		ImageButton btnSearch, btnFavs;
+		Button btnMinus, btnPlus;
+		TextView tvTweetCount;
 
 		ProgressDialog progressDialog;
 
@@ -36,27 +37,33 @@ namespace RemoteData
 		readonly string NAMES = "AUTOCOMPLETE_NAMES";
 		readonly string FIRST = "FIRST";
 		readonly string SOURCE = "SOURCE";
+		readonly string COUNT = "COUNT";
 		string userName, nms;
 		string[] nameArray;
+		int tweetCount;
 		
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
+
 			prefs = GetPreferences (FileCreationMode.Append);
 			firstTime = prefs.GetBoolean (FIRST, true);
+			tweetCount = prefs.GetInt (COUNT, 5);
 			nms = prefs.GetString (NAMES, "flowpilots°");
 			nameArray = AutocompleteNames (nms);
-
-			//Stream input = Assets.Open ("AboutAssets.txt");  
-			//Typeface tf = Typeface.CreateFromAsset (Context.Assets, "fonts/Greyscale Basic Regular.ttf");
 			
 			image = FindViewById<ImageView> (Resource.Id.iv);
 			user = FindViewById<AutoCompleteTextView> (Resource.Id.etUser);
-			button = FindViewById<ImageButton> (Resource.Id.myButton);
-			tv = FindViewById<TextView> (Resource.Id.tv1);
+			btnSearch = FindViewById<ImageButton> (Resource.Id.myButton);
+			btnFavs = FindViewById<ImageButton> (Resource.Id.btnR);
+			btnMinus = FindViewById<Button> (Resource.Id.btnL);
+			btnPlus = FindViewById<Button> (Resource.Id.btnM);
+			tvTweetCount = FindViewById<TextView> (Resource.Id.tv1);
 
-			user.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Regular.ttf");
+			user.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Regular Italic.ttf");
+			tvTweetCount.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Bold.ttf");
+			tvTweetCount.Text = String.Format ("{0}",tweetCount);
 
 			if (firstTime) {
 				editor = prefs.Edit ();
@@ -68,8 +75,32 @@ namespace RemoteData
 			}
 
 
-			button.Click += twitter_DownloadString;
+			btnSearch.Click += twitter_DownloadString;
+			btnMinus.Click += ChangeTweetCount;
+			btnPlus.Click += ChangeTweetCount;
+			btnFavs.Click += (sender, e) => {
+				StartActivity (typeof (ViewFavTweetsActivity));
+			};
 		
+		}
+		private void ChangeTweetCount (object sender, EventArgs e)
+		{
+			int n = tweetCount;
+			var v = (View)sender;
+
+			switch (v.Id) {
+			case Resource.Id.btnL:
+				if (n > 5) {
+					tvTweetCount.Text = String.Format ("{0}",--n);
+				}
+				break;
+			case Resource.Id.btnM:
+				if (n < 50) {
+					tvTweetCount.Text = String.Format ("{0}",++n);
+				}
+				break;
+			}
+			tweetCount = n;
 		}
 		string[] AutocompleteNames (string allNames)
 		{
@@ -78,41 +109,54 @@ namespace RemoteData
 		}
 		private void twitter_DownloadString (object sender, EventArgs e)
 		{
+			var c = tvTweetCount.Text; 
 			userName = user.Text;
-			if (userName != null) {
+			if (userName.Length >0) {
+				editor = prefs.Edit ();
 				if (newName (userName)){
 					string newNms = String.Format("{0}{1}°", nms, userName);
-					editor = prefs.Edit ();
 					editor.PutString (NAMES, newNms);
-					editor.Commit ();
 				}
-
-				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count=5",userName);
+				editor.PutInt (COUNT, tweetCount);
+				editor.Commit ();
+				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count={1}",userName, c);
 				progressDialog = ProgressDialog.Show(this, "Downloading Tweets", String.Format("looking for {0}",userName), true);
 				WebClient twitter = new WebClient ();
 				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
 				twitter.DownloadStringAsync (new System.Uri (Url));
 			} else {
-				Toast.MakeText(this, "Enter twitter Name", ToastLength.Short).Show();
+				Toast.MakeText(ApplicationContext, "Enter twitter Name", ToastLength.Short).Show();
 			}
 		}
 		
 		void twitter_DownloadStringCompleted (object sender, DownloadStringCompletedEventArgs e)
 		{
-			if (e.Error != null)
-				return;
-			try {
-				string result = e.Result;
-				Intent intent = new Intent(this, typeof (ViewTweetsActivity));
-				intent.PutExtra(SOURCE, result);
-				StartActivity (intent);
-				Finish ();
-			} catch (WebException we) {
-				Console.Error.WriteLine (String.Format("WebException : {0}" , we.Message));
-			} catch (System.Exception sysExc) {
-				Console.Error.WriteLine (String.Format("System.Exception : {0}\n{1}" , sysExc.Message , sysExc.StackTrace));
-			}	
+			if (e.Error == null) {
+				try {
+					string result = e.Result;
+					Intent intent = new Intent(this, typeof (ViewTweetsActivity));
+					intent.PutExtra(SOURCE, result);
+					StartActivity (intent);
+					Finish ();
+				} catch (WebException we) {
+					Console.Error.WriteLine (String.Format("WebException : {0}" , we.Message));
+				} catch (System.Exception sysExc) {
+					Console.Error.WriteLine (String.Format("System.Exception : {0}\n{1}" , sysExc.Message , e.Error));//10484778
+
+				}
+			} else {
+				Console.Error.WriteLine (String.Format ("Error: {0}", e.Error));
+				if (progressDialog != null) {
+					progressDialog.Dismiss ();
+					progressDialog = null;
+				}
+				RunOnUiThread (() => {
+					user.Text = "";
+					Toast.MakeText(this, "Enter correct twitter Name", ToastLength.Short).Show();
+				});
+			}
 		}
+
 		bool newName (string name)
 		{
 			return !nameArray.Contains (name);
@@ -127,7 +171,6 @@ namespace RemoteData
 				progressDialog = null;
 			}
 		}
-
 	}
 }
 

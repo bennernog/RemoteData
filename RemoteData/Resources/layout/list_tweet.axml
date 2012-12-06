@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/frame1">
+        android:background="@drawable/tweet_frame_ds">
         <TextView
             android:text="Tweet Text"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -19,7 +19,8 @@
             android:textColor="#ff000000"
             android:layout_marginBottom="10dip"
             android:layout_marginLeft="20dip"
-            android:layout_marginTop="20dip" />
+            android:layout_marginTop="15dip"
+            android:layout_marginRight="10dip" />
         <TextView
             android:text="post date"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -27,6 +28,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvDate"
             android:textColor="#999999"
-            android:gravity="right" />
+            android:gravity="right"
+            android:layout_marginRight="10dip"
+            android:layout_marginBottom="10dip" />
     </LinearLayout>
 </LinearLayout>
