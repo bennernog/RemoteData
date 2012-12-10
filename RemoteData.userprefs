@@ -1,25 +1,13 @@
-﻿<Properties GitUserInfo="UsingMD">
+﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="RemoteData\ViewTweetsActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RemoteData/Activity1.cs">
     <Files>
-      <File FileName="RemoteData\Activity1.cs" Line="155" Column="34" />
-      <File FileName="RemoteData\ViewTweetsActivity.cs" Line="23" Column="33" />
+      <File FileName="RemoteData/MyListAdapter.cs" Line="57" Column="30" />
+      <File FileName="RemoteData/Activity1.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/Activity1.cs" line="82" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/MyListAdapter.cs" line="63" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/MyFavListAdapter.cs" line="69" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/ViewTweetsActivity.cs" line="32" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/ViewTweetsActivity.cs" line="43" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/MyListAdapter.cs" line="56" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/Activity1.cs" line="72" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/Activity1.cs" line="69" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/ViewTweetsActivity.cs" line="8" />
-      <Breakpoint file="/Users/janvdp/code/RemoteData/RemoteData/ViewTweetsActivity.cs" line="17" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.RemoteData AndroidDeviceId-Debug="emulator-5554" />
 </Properties>

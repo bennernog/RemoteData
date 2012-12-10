@@ -19,7 +19,12 @@ namespace RemoteData
 	class MyListAdapter : BaseAdapter
 	{
 		Activity myActivity;
+		// TODO improvement:
+		// use properties instead of public members
 		public List<Tweet> Items;
+
+		// TODO improvement
+		// add spacing between methods
 		public MyListAdapter (Activity context, List<Tweet> items) : base ()
 		{
 			this.myActivity = context;
