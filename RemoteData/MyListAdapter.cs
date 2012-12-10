@@ -24,7 +24,7 @@ namespace RemoteData
 		public List<Tweet> Items;
 
 		// TODO improvement
-		// add spacing between methods
+		// add spacing 
 		public MyListAdapter (Activity context, List<Tweet> items) : base ()
 		{
 			this.myActivity = context;

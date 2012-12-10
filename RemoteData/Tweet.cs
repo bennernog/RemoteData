@@ -14,11 +14,9 @@ using Android.Graphics;
 using System.Net;
 
 namespace RemoteData
-
 {
 	public class Tweet
 	{
-
 		public delegate void ImageDownloadedHandler (Bitmap bm);
 		public static event ImageDownloadedHandler DownloadCompleted;
 
@@ -54,8 +52,7 @@ namespace RemoteData
 
 		private string displayString (JsonValue input)
 		{
-			var tmp = System.Web.HttpUtility.HtmlDecode (input);
-			return tmp;
+			return System.Web.HttpUtility.HtmlDecode (input);
 		}
 
 		void DownloadImage (DownloadDataCompletedEventHandler downloadDataCompleted)

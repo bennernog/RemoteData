@@ -73,7 +73,7 @@ namespace RemoteData
 				ArrayAdapter autoCompleteAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, nameArray);
 				user.Adapter = autoCompleteAdapter;
 			}
-
+			// TODO clean up spaces :)
 
 			btnSearch.Click += twitter_DownloadString;
 			btnMinus.Click += ChangeTweetCount;
@@ -85,12 +85,27 @@ namespace RemoteData
 		}
 		private void ChangeTweetCount (object sender, EventArgs e)
 		{
+			// TODO this variable assignment makes your code (a little) harder to read while there is no real benefit
+
 			int n = tweetCount;
+
+			// TODO instead of casting us 'as' operator
+			/*
+			 * From "Effective c#"
+			 * The correct choice is to use the as operator whenever you can because it
+			 * is safer than blindly casting and is more efficient at runtime.
+			 * The as and is operators do not perform any user-defined conversions. 
+			 * They succeed only if the runtime type matches the sought type; 
+			 * they never construct a new object to satisfy a request.
+			 * 
+			 */
 			var v = (View)sender;
 
+			// TODO include default for your switch
 			switch (v.Id) {
 			case Resource.Id.btnL:
 				if (n > 5) {
+					// TODO --n makes your code a little harder to read, and could be confusing while debugging, but works just fine of course. :)
 					tvTweetCount.Text = String.Format ("{0}",--n);
 				}
 				break;
@@ -109,6 +124,7 @@ namespace RemoteData
 		}
 		private void twitter_DownloadString (object sender, EventArgs e)
 		{
+			// TODO give variables meaningful names!
 			var c = tvTweetCount.Text; 
 			userName = user.Text;
 
@@ -155,6 +171,12 @@ namespace RemoteData
 			}
 		}
 
+		// TODO: methods start with a capital in C#
+		// TODO: use meaningful names: 
+		/*
+		 * newName -> I would expect a new name based on the parameter
+		 * IsNewName -> I would expect a bool based on the parameter
+		 */
 		bool newName (string name)
 		{
 			return !nameArray.Contains (name);

@@ -54,6 +54,7 @@ namespace RemoteData
 
 		private Tweet NewTweet (Android.Database.ICursor cursor)
 		{
+			// TODO: use meaningful variable names
 			var j = JsonValue.Parse (cursor.GetString (1));
 			Tweet twt = new Tweet (j);
 

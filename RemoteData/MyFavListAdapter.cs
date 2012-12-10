@@ -19,7 +19,11 @@ namespace RemoteData
 	class MyFavListAdapter : BaseAdapter
 	{
 		Activity myActivity;
+		// TODO don't use public members, use public properties instead
 		public List<Tweet> Items;
+
+		// TODO: add spacing
+		// could be a result of the CRLF -> LF conversion :S
 		public MyFavListAdapter (Activity context, List<Tweet> items) : base ()
 		{
 			this.myActivity = context;
@@ -42,6 +46,8 @@ namespace RemoteData
 			var view = (convertView ?? myActivity.LayoutInflater.Inflate(
 				Resource.Layout.tweet_display, parent, false)) 
 				as LinearLayout;
+			// TODO: you can also use
+			// var ivProfile = view.FindViewById<ImageView> (Resource.Id.ivProfile);
 			var ivProfile = view.FindViewById (Resource.Id.ivProfile) as ImageView;
 			var tvName = view.FindViewById (Resource.Id.tvName) as TextView;
 			var tvScreenName = view.FindViewById (Resource.Id.tvScreenName) as TextView;
@@ -57,6 +63,7 @@ namespace RemoteData
 			myActivity.RunOnUiThread (() => 
 			{
 				ivProfile.SetImageBitmap (tweet.ProfileImage);
+				// TODO: use String.Format
 				tvScreenName.Text = "@"+tweet.ScreenName;
 				tvName.Text = tweet.UserName;
 				tvTweet.Text = tweet.StatusText;
