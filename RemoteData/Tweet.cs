@@ -14,14 +14,12 @@ using Android.Graphics;
 using System.Net;
 
 namespace RemoteData
-
 {
 	public class Tweet
 	{
-
 		public delegate void ImageDownloadedHandler (Bitmap bm);
 		public static event ImageDownloadedHandler DownloadCompleted;
-
+		
 		public string StatusText { get; set; }
 		public string StatusDate { get; set; }
 		public string UserName { get; set; }
@@ -30,7 +28,7 @@ namespace RemoteData
 		public Bitmap ProfileImage { get; set; }
 		public string ID { get; set; }
 		public string SourceString { get; set; }
-
+		
 		public Tweet(JsonValue result)
 		{
 			var text = result ["text"];
@@ -41,30 +39,29 @@ namespace RemoteData
 			var screen_name = user ["screen_name"];
 			var imageUrl = user ["profile_image_url"];
 			var id = user ["id"];
-
+			
 			this.SourceString = result.ToString ();
 			this.ID = id.ToString ();
 			this.StatusText = displayString (text);
 			this.StatusDate = displayString (date);
-            this.UserName = displayString (name);
-           	this.ScreenName = displayString (screen_name);
+			this.UserName = displayString (name);
+			this.ScreenName = displayString (screen_name);
 			this.ProfileImageUrl = displayString (imageUrl);
 			DownloadImage (web_DownloadDataCompleted);
 		}
-
+		
 		private string displayString (JsonValue input)
 		{
-			var tmp = System.Web.HttpUtility.HtmlDecode (input);
-			return tmp;
+			return System.Web.HttpUtility.HtmlDecode (input);
 		}
-
+		
 		void DownloadImage (DownloadDataCompletedEventHandler downloadDataCompleted)
 		{
 			WebClient web = new WebClient();
 			web.DownloadDataAsync(new System.Uri (ProfileImageUrl));
 			web.DownloadDataCompleted += new DownloadDataCompletedEventHandler(downloadDataCompleted);
 		}
-
+		
 		void web_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
 		{
 			Bitmap bm;

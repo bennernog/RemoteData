@@ -28,9 +28,9 @@ namespace RemoteData
 		ImageButton btnSearch, btnFavs;
 		Button btnMinus, btnPlus;
 		TextView tvTweetCount;
-
+		
 		ProgressDialog progressDialog;
-
+		
 		ISharedPreferences prefs;
 		ISharedPreferencesEditor editor;
 		bool firstTime;
@@ -46,7 +46,7 @@ namespace RemoteData
 		{
 			base.OnCreate (bundle);
 			SetContentView (Resource.Layout.Main);
-
+			
 			prefs = GetPreferences (FileCreationMode.Append);
 			firstTime = prefs.GetBoolean (FIRST, true);
 			tweetCount = prefs.GetInt (COUNT, 5);
@@ -60,11 +60,11 @@ namespace RemoteData
 			btnMinus = FindViewById<Button> (Resource.Id.btnL);
 			btnPlus = FindViewById<Button> (Resource.Id.btnM);
 			tvTweetCount = FindViewById<TextView> (Resource.Id.tv1);
-
+			
 			user.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Regular Italic.ttf");
 			tvTweetCount.Typeface = Typeface.CreateFromAsset (this.Assets, "fonts/Greyscale Basic Bold.ttf");
 			tvTweetCount.Text = String.Format ("{0}",tweetCount);
-
+			
 			if (firstTime) {
 				editor = prefs.Edit ();
 				editor.PutBoolean (FIRST, false);
@@ -73,56 +73,65 @@ namespace RemoteData
 				ArrayAdapter autoCompleteAdapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, nameArray);
 				user.Adapter = autoCompleteAdapter;
 			}
-
-
+			// TODO clean up spaces :)
+			/* ???
+			 */
+			
 			btnSearch.Click += twitter_DownloadString;
 			btnMinus.Click += ChangeTweetCount;
 			btnPlus.Click += ChangeTweetCount;
 			btnFavs.Click += (sender, e) => {
 				StartActivity (typeof (ViewFavTweetsActivity));
 			};
-		
+			
 		}
+
 		private void ChangeTweetCount (object sender, EventArgs e)
 		{
-			int n = tweetCount;
-			var v = (View)sender;
-
-			switch (v.Id) {
+			var view = sender as View;
+			
+			// TODO include default for your switch
+			/* why? All views connected to this void are(were) covered.
+			 */
+			switch (view.Id) {
 			case Resource.Id.btnL:
-				if (n > 5) {
-					tvTweetCount.Text = String.Format ("{0}",--n);
+				if (tweetCount > 5) {
+					// TODO --n makes your code a little harder to read, and could be confusing while debugging, but works just fine of course. :)
+					/* I wanted it to decrement/increment at the same time it is displayed, so made sense to me to do it like this.
+					 * also i thought shorter code = better code?
+					 */
+					tvTweetCount.Text = String.Format ("{0}",--tweetCount);
 				}
 				break;
-			case Resource.Id.btnM:
-				if (n < 50) {
-					tvTweetCount.Text = String.Format ("{0}",++n);
+			default:
+				if (tweetCount < 50) {
+					tvTweetCount.Text = String.Format ("{0}",++tweetCount);
 				}
 				break;
 			}
-			tweetCount = n;
 		}
+
 		string[] AutocompleteNames (string allNames)
 		{
 			string[] autoCompleteOptions = allNames.Split ('°');
 			return autoCompleteOptions;
 		}
+
 		private void twitter_DownloadString (object sender, EventArgs e)
 		{
-			var c = tvTweetCount.Text; 
 			userName = user.Text;
-
+			
 			if (userName.Length >0) {
 				editor = prefs.Edit ();
-				if (newName (userName)){
+				if (IsNewName (userName)){
 					string newNms = String.Format("{0}{1}°", nms, userName);
 					editor.PutString (NAMES, newNms);
 				}
 				editor.PutInt (COUNT, tweetCount);
 				editor.Commit ();
-
+				
 				progressDialog = ProgressDialog.Show(this, "Downloading Tweets", String.Format("looking for {0}",userName), true);
-				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count={1}",userName, c);
+				string Url = String.Format("http://api.twitter.com/1/statuses/user_timeline.json?screen_name={0}&count={1}",userName, tweetCount);
 				WebClient twitter = new WebClient ();
 				twitter.DownloadStringCompleted += new DownloadStringCompletedEventHandler (twitter_DownloadStringCompleted);
 				twitter.DownloadStringAsync (new System.Uri (Url));
@@ -155,11 +164,11 @@ namespace RemoteData
 			}
 		}
 
-		bool newName (string name)
+		bool IsNewName (string name)
 		{
 			return !nameArray.Contains (name);
 		}
-
+		
 		protected override void OnPause ()
 		{
 			base.OnPause ();
@@ -171,4 +180,3 @@ namespace RemoteData
 		}
 	}
 }
-

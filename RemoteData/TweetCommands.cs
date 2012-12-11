@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +21,7 @@ namespace RemoteData
 			twtHelp = new TweetHelper (context);
 			twtHelp.OnCreate (twtHelp.WritableDatabase);
 		}
-
+		
 		public List<Tweet> GetAllTweets ()
 		{
 			Android.Database.ICursor tCursor = twtHelp.ReadableDatabase.Query ("Tweet", null, null, null, null, null, null, null);
@@ -40,10 +39,10 @@ namespace RemoteData
 			var values = new ContentValues ();
 			values.Put ("Source", tweet.SourceString);
 			values.Put ("ID", tweet.ID);
-
+			
 			return twtHelp.WritableDatabase.Insert ("Tweet", null, values);
 		}
-
+		
 		public void DeleteTweet (string tweetID)
 		{
 			string[] vals = new string[1];
@@ -51,15 +50,14 @@ namespace RemoteData
 			
 			twtHelp.WritableDatabase.Delete ("Tweet", "Id=?", vals);
 		}
-
+		
 		private Tweet NewTweet (Android.Database.ICursor cursor)
 		{
-			var j = JsonValue.Parse (cursor.GetString (1));
-			Tweet twt = new Tweet (j);
-
+			var jsonString = JsonValue.Parse (cursor.GetString (1));
+			Tweet twt = new Tweet (jsonString);
+			
 			return (twt);
 		}
-
+		
 	}
 }
-
